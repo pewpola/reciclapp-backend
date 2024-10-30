@@ -1,6 +1,7 @@
 // src/routes/auth.routes.ts
-import { Router } from "express";
+import { Router, Request, Response } from "express";
 import { AuthController } from "../controllers/AuthController";
+import asyncHandler from "../utils/asyncHandler";
 
 const router = Router();
 
@@ -8,6 +9,6 @@ const router = Router();
 router.post("/register", AuthController.register);
 
 // Rota para login
-// router.post("/login", AuthController.login);
+router.post("/login", asyncHandler(AuthController.login));
 
 export default router;
