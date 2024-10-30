@@ -10,11 +10,11 @@ export class UserService {
 
   async createUser(data: any) {
     data.senha = await bcrypt.hash(data.senha, 10);
-    return this.userRepository.createUser(data);
+    return this.userRepository.create(data);
   }
 
   async getUserByEmail(email: string) {
-    return this.userRepository.findUserByEmail(email);
+    return this.userRepository.findByEmail(email);
   }
 
   async getUserById(idUsuario: number) {

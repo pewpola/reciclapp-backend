@@ -6,6 +6,6 @@ const movelController = new MovelController();
 
 // router.post("/", (req, res) => movelController.create(req, res));
 // router.get("/", (req, res) => movelController.getByUser(req, res));
-router.get("/all", (req, res, next) => movelController.index(req, res, next));
+router.get("/moveis", (req, res, next) => movelController.index(req, res, next));
 
 export default router;

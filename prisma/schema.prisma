@@ -21,6 +21,7 @@ model Usuario {
   numero    Int
   telefones Telefone[]
   emails    Email[]
+  senha     String    @db.VarChar(255)
   moveis    Movel[]
   carrinhos Carrinho[]
   servicos  Servico[]

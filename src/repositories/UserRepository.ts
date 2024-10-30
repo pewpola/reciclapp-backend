@@ -1,21 +1,27 @@
+
 import prisma from "../database";
 
 export class UserRepository {
-  async createUser(data: any) {
-    return prisma.usuario.create({ data });
+  async create(userData: any): Promise<void> {
+    await prisma.usuario.create({ data: userData });
   }
 
-  async findUserByEmail(email: string) {
-    return prisma.email.findFirst({
-      where: { email },
-      include: { usuario: true },
+  async findByEmail(email: string) {
+    return await prisma.usuario.findFirst({
+      where: { emails: { some: { email } } },
     });
   }
 
-  async getUserById(idUsuario: number) {
-    return prisma.usuario.findUnique({
-      where: { idUsuario },
-      include: { emails: true, telefones: true },
+  async getUserById(id: number) {
+    return await prisma.usuario.findUnique({
+      where: { idUsuario: id },
+      include: {
+        emails: true,
+        telefones: true,
+        moveis: true,
+        carrinhos: true,
+        servicos: true
+      }
     });
   }
 }
