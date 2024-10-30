@@ -1,8 +1,10 @@
 import prisma from '../database';
 import IMovelRepository from '../interfaces/IMovelRepository';
+import { Movel } from '@prisma/client';
 
-export class MovelRepository implements IMovelRepository  {
-  async getAllMoveis() {
+export class MovelRepository implements IMovelRepository {
+
+  async getAllMoveis(): Promise<Movel[]> {
     return prisma.movel.findMany();
   }
 

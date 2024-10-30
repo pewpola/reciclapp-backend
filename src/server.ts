@@ -1,6 +1,7 @@
 import cors from "cors";
 import express from "express";
 import movelRoutes from './routes/MovelRoutes';
+import userRoutes from './routes/UserRoutes';
 import dotenv from "dotenv";
 import { errorHandlerMiddleware } from "./middlewares/error-handler";
 
