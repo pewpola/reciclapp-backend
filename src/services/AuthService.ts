@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 import prisma from "../database";
 
 export class AuthService {
-  private jwtSecret = process.env.JWT_SECRET || "defaultSecret";
+  private jwtSecret = process.env.JWT_SECRET || "secret";
 
   async register(userData: { nome: string; cep: string; rua: string; numero: number; senha: string; email: string; telefone: string }): Promise<string> {
     const hashedPassword = await bcrypt.hash(userData.senha, 10);
@@ -38,6 +38,6 @@ export class AuthService {
   }
 
   private generateToken(userId: number): string {
-    return jwt.sign({ userId }, this.jwtSecret, { expiresIn: "1h" });
+    return jwt.sign({ userId }, this.jwtSecret, { expiresIn: "48h" });
   }
 }

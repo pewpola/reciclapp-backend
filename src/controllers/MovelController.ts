@@ -10,31 +10,57 @@ export class MovelController {
 
   async index(req: Request, res: Response, next: NextFunction) {
     try {
-        const moveis = await this.movelService.getAllMoveis();
-        res.status(200).json(moveis)
+      const moveis = await this.movelService.getAllMoveis();
+      res.status(200).json(moveis);
     } catch (error) {
-      next(error)
+      next(error);
     }
   }
 
-//   async create(req: Request, res: Response) {
-//     const userId = req.userId;
-//     try {
-//       const movel = await this.movelService.createMovel({ ...req.body, Usuario_idUsuario: userId });
-//       res.status(201).json(movel);
-//     } catch (error) {
-//       res.status(400).json({ error: "Erro ao criar móvel" });
-//     }
-//   }
+  async create(req: Request, res: Response) {
+    const userId = req.userId; // Pegando o ID do usuário autenticado
+    try {
+      const movel = await this.movelService.createMovel({
+        ...req.body,
+        Usuario_idUsuario: userId // Passando o ID do usuário para a criação do móvel
+      });
+      res.status(201).json(movel);
+    } catch (error) {
+      console.log(error);
+      res.status(400).json({ error: "Erro ao criar móvel" });
+    }
+  }  
 
+  async getMovelById(req: Request, res: Response, next: NextFunction) {
+    const { idMovel } = req.params;
+    try {
+      const movel = await this.movelService.getMovelById(parseInt(idMovel));
+      if (!movel) {
+        return res.status(404).json({ error: "Móvel não encontrado" });
+      }
+      res.status(200).json(movel);
+    } catch (error) {
+      next(error);
+    }
+  }
 
-//   async getByUser(req: Request, res: Response) {
-//     const userId = req.userId;
-//     try {
-//       const moveis = await this.movelService.getMoveisByUser(userId);
-//       res.status(200).json(moveis);
-//     } catch (error) {
-//       res.status(400).json({ error: "Erro ao buscar móveis do usuário" });
-//     }
-//   }
+  async update(req: Request, res: Response, next: NextFunction) {
+    const { idMovel } = req.params; // ID do móvel a ser atualizado
+    try {
+      const updatedMovel = await this.movelService.updateMovel(parseInt(idMovel), req.body);
+      res.status(200).json(updatedMovel);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async delete(req: Request, res: Response, next: NextFunction) {
+    const { idMovel } = req.params; // ID do móvel a ser removido
+    try {
+      await this.movelService.deleteMovel(parseInt(idMovel));
+      res.status(204).send(); // No content response
+    } catch (error) {
+      next(error);
+    }
+  }
 }

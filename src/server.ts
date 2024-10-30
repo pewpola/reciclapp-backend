@@ -13,6 +13,8 @@ const app = express();
 app.use(express.json());
 app.use(errorHandlerMiddleware);
 app.use(cors());
+
+app.use('/users', userRoutes);
 app.use('/moveis', movelRoutes);
 app.use('/auth', authRoutes)
 

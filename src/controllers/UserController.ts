@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { UserService } from "../services/UserService";
 
 export class UserController {
@@ -6,6 +6,15 @@ export class UserController {
 
   constructor() {
     this.userService = new UserService();
+  }
+
+  async getAllUsers(req: Request, res: Response, next: NextFunction) {
+    try {
+      const users = await this.userService.getAllUsers();
+      res.status(200).json(users);
+    } catch (error) {
+      next(error);
+    }
   }
 
   async create(req: Request, res: Response) {

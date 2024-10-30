@@ -8,6 +8,10 @@ export class UserService {
     this.userRepository = new UserRepository();
   }
 
+  async getAllUsers() {
+    return this.userRepository.getAllUsers();
+  }
+
   async createUser(data: any) {
     data.senha = await bcrypt.hash(data.senha, 10);
     return this.userRepository.create(data);
