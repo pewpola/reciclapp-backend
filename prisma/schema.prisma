@@ -12,3 +12,71 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+model Usuario {
+  idUsuario Int       @id @default(autoincrement())
+  nome      String    @db.VarChar(45)
+  cep       String    @db.VarChar(9)
+  rua       String    @db.VarChar(45)
+  numero    Int
+  telefones Telefone[]
+  emails    Email[]
+  moveis    Movel[]
+  carrinhos Carrinho[]
+  servicos  Servico[]
+}
+
+model Telefone {
+  numero          String   @db.VarChar(45)
+  Usuario_idUsuario Int
+  usuario         Usuario  @relation(fields: [Usuario_idUsuario], references: [idUsuario], onDelete: Cascade)
+
+  @@id([numero, Usuario_idUsuario])
+}
+
+model Email {
+  email           String   @db.VarChar(45)
+  Usuario_idUsuario Int
+  usuario         Usuario  @relation(fields: [Usuario_idUsuario], references: [idUsuario], onDelete: Cascade)
+
+  @@id([email, Usuario_idUsuario])
+}
+
+model Movel {
+  idMovel      Int      @id @default(autoincrement())
+  Usuario_idUsuario Int
+  nome         String   @db.VarChar(45)
+  preco        Decimal  @db.Decimal(11, 2)
+  estado       String   @db.VarChar(45)
+  descricao    String   @db.VarChar(255)
+  urlImagem    String?  @db.VarChar(255)
+  usuario      Usuario  @relation(fields: [Usuario_idUsuario], references: [idUsuario], onDelete: Cascade)
+  itensCarrinho ItemCarrinho[]
+}
+
+model Carrinho {
+  idCarrinho    Int           @id @default(autoincrement())
+  Usuario_idUsuario Int
+  usuario       Usuario       @relation(fields: [Usuario_idUsuario], references: [idUsuario], onDelete: Cascade)
+  itens         ItemCarrinho[]
+}
+
+model ItemCarrinho {
+  idItem          Int       @id @default(autoincrement())
+  Carrinho_idCarrinho Int
+  Movel_idMovel   Int
+  quantidade      Int
+  carrinho        Carrinho  @relation(fields: [Carrinho_idCarrinho], references: [idCarrinho], onDelete: Cascade)
+  movel           Movel     @relation(fields: [Movel_idMovel], references: [idMovel], onDelete: Cascade)
+}
+
+model Servico {
+  idServico       Int       @id @default(autoincrement())
+  Usuario_idUsuario Int
+  nome            String    @db.VarChar(45)
+  cep             String    @db.VarChar(9)
+  rua             String    @db.VarChar(45)
+  tipo            String    @db.VarChar(45)
+  descricao       String    @db.VarChar(250)
+  usuario         Usuario   @relation(fields: [Usuario_idUsuario], references: [idUsuario], onDelete: Cascade)
+}
