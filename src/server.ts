@@ -1,11 +1,14 @@
-import cors from "cors"
-import express from "express"
-import { router } from "./routes"
+import cors from "cors";
+import express from "express";
+import { router } from "./routes";
+import dotenv from "dotenv";
 
-const app = express()
+dotenv.config()
 
-app.use(cors())
+const app = express();
+
+app.use(cors());
 app.use(router);
 
-const PORT = process.env.PORT || 3000
-app.listen(PORT, () => console.log(`Servidor iniciado em <http://localhost>:${PORT}/`))
+const PORT = process.env.API_PORT;
+app.listen(PORT, () => console.log(`Servidor iniciado em <http://localhost>:${PORT}/`));
