@@ -18,11 +18,11 @@ export class MovelController {
   }
 
   async create(req: Request, res: Response) {
-    const userId = req.userId; // Pegando o ID do usuário autenticado
+    const userId = req.userId;
     try {
       const movel = await this.movelService.createMovel({
         ...req.body,
-        Usuario_idUsuario: userId // Passando o ID do usuário para a criação do móvel
+        Usuario_idUsuario: userId
       });
       res.status(201).json(movel);
     } catch (error) {
@@ -45,7 +45,7 @@ export class MovelController {
   }
 
   async update(req: Request, res: Response, next: NextFunction) {
-    const { idMovel } = req.params; // ID do móvel a ser atualizado
+    const { idMovel } = req.params;
     try {
       const updatedMovel = await this.movelService.updateMovel(parseInt(idMovel), req.body);
       res.status(200).json(updatedMovel);
@@ -55,10 +55,10 @@ export class MovelController {
   }
 
   async delete(req: Request, res: Response, next: NextFunction) {
-    const { idMovel } = req.params; // ID do móvel a ser removido
+    const { idMovel } = req.params;
     try {
       await this.movelService.deleteMovel(parseInt(idMovel));
-      res.status(204).send(); // No content response
+      res.status(204).send();
     } catch (error) {
       next(error);
     }
