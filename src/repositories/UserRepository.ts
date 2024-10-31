@@ -1,11 +1,12 @@
 
 import prisma from "../database";
+import IUserRepository from "../interfaces/IUserRepository";
 
-export class UserRepository {
+export class UserRepository implements IUserRepository {
     async getAllUsers() {
         return await prisma.usuario.findMany();
     }
-    
+
     async create(userData: any): Promise<void> {
         await prisma.usuario.create({ data: userData });
     }
