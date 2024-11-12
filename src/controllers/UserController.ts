@@ -26,6 +26,7 @@ export class UserController {
     }
   }
 
+  
   async getUser(req: Request, res: Response) {
     try {
       const user = await this.userService.getUserById(parseInt(req.params.idUsuario));
@@ -34,4 +35,17 @@ export class UserController {
       res.status(404).json({ error: "Usuário não encontrado" });
     }
   }
+
+  async getProfile(req: Request, res: Response) {
+    try {
+      const id = res.locals.userId;
+      console.log(id);
+      const user = await this.userService.getUserById(parseInt(id));
+      res.status(200).json(user);
+    } catch (error) {
+      console.log(error)
+      res.status(404).json({ error: "Usuário não encontrado" });
+    }
+  }
+
 }

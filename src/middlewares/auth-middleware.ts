@@ -10,7 +10,8 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET) as { userId: number };
-    req.userId = decoded.userId;
+    // req.userId = decoded.userId;
+    res.locals.userId = decoded.userId;
     next();
   } catch (error) {
     return res.status(401).json({ error: "Token inválido" });
