@@ -19,10 +19,11 @@ export class MovelController {
 
   async create(req: Request, res: Response) {
     const userId = req.userId;
+    const idUsuario = res.locals.userId;
     try {
       const movel = await this.movelService.createMovel({
         ...req.body,
-        Usuario_idUsuario: userId
+        Usuario_idUsuario: idUsuario
       });
       res.status(201).json(movel);
     } catch (error) {
@@ -35,6 +36,19 @@ export class MovelController {
     const { idMovel } = req.params;
     try {
       const movel = await this.movelService.getMovelById(parseInt(idMovel));
+      if (!movel) {
+        return res.status(404).json({ error: "Móvel não encontrado" });
+      }
+      res.status(200).json(movel);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getMovelByUser(req: Request, res: Response, next: NextFunction) {
+    try {
+      const idUsuario = res.locals.userId;
+      const movel = await this.movelService.getMoveisByUser(parseInt(idUsuario));
       if (!movel) {
         return res.status(404).json({ error: "Móvel não encontrado" });
       }
