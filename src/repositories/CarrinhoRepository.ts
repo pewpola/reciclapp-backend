@@ -7,7 +7,7 @@ export class CarrinhoRepository implements ICarrinhoRepository {
     async getCarrinhoByUserId(userId: number) {
         return await prisma.carrinho.findFirst({
             where: { Usuario_idUsuario: userId },
-            include: { itens: true },
+            include: { itens: { include: { movel: true } } },
         });
     }
 
@@ -28,9 +28,9 @@ export class CarrinhoRepository implements ICarrinhoRepository {
                 Movel_idMovel: movelId,
                 quantidade,
             },
+            include: { movel: true },
         });
     }
-    
 
     async removeItemFromCarrinho(carrinhoId: number, itemId: number) {
         await prisma.itemCarrinho.delete({
