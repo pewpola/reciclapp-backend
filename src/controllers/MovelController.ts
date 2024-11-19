@@ -32,18 +32,27 @@ export class MovelController {
     }
   }  
 
+
   async getMovelById(req: Request, res: Response, next: NextFunction) {
     const { idMovel } = req.params;
+    const parsedId = parseInt(idMovel, 10);
+  
+    if (isNaN(parsedId)) {
+      return res.status(400).json({ error: "ID do móvel inválido" });
+    }
+  
     try {
-      const movel = await this.movelService.getMovelById(parseInt(idMovel));
+      const movel = await this.movelService.getMovelById(parsedId);
       if (!movel) {
         return res.status(404).json({ error: "Móvel não encontrado" });
       }
       res.status(200).json(movel);
     } catch (error) {
+      console.error('Erro ao buscar móvel por ID:', error);
       next(error);
     }
   }
+  
 
   async getMovelByUser(req: Request, res: Response, next: NextFunction) {
     try {

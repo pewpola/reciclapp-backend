@@ -10,6 +10,7 @@ import { errorHandlerMiddleware } from "./middlewares/error-handler";
 dotenv.config();
 
 const app = express();
+app.use('/uploads', express.static('uploads'));
 
 app.use(express.json());
 app.use(errorHandlerMiddleware);
