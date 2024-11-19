@@ -5,13 +5,13 @@ const carrinhoService = new CarrinhoService();
 
 export class CarrinhoController {
     static async getCarrinho(req: Request, res: Response) {
-        const userId = parseInt(req.params.userId);
+        const userId = parseInt(res.locals.userId);
         const carrinho = await carrinhoService.getCarrinhoByUserId(userId);
         res.json(carrinho);
     }
 
     static async addItem(req: Request, res: Response) {
-        const userId = parseInt(req.params.userId);
+        const userId = parseInt(res.locals.userId);
         const { movelId, quantidade } = req.body;
         const item = await carrinhoService.addItemToCarrinho(userId, movelId, quantidade);
         res.json(item);
