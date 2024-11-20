@@ -28,4 +28,29 @@ export class CarrinhoController {
         await carrinhoService.clearCarrinho(carrinhoId);
         res.sendStatus(204);
     }
+
+    static async incrementarQuantidade(req: Request, res: Response) {
+        const userId = parseInt(res.locals.userId);
+        const { itemId } = req.params;
+    
+        try {
+            const itemAtualizado = await carrinhoService.updateQuantidade(userId, parseInt(itemId), 1);
+            res.json(itemAtualizado);
+        } catch (error) {
+            res.status(500).json({ error: 'Erro ao incrementar quantidade do item.' });
+        }
+    }
+    
+    static async decrementarQuantidade(req: Request, res: Response) {
+        const userId = parseInt(res.locals.userId);
+        const { itemId } = req.params;
+    
+        try {
+            const itemAtualizado = await carrinhoService.updateQuantidade(userId, parseInt(itemId), -1);
+            res.json(itemAtualizado);
+        } catch (error) {
+            res.status(500).json({ error: 'Erro ao decrementar quantidade do item.' });
+        }
+    }
+    
 }

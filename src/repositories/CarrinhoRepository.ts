@@ -22,6 +22,27 @@ export class CarrinhoRepository implements ICarrinhoRepository {
             });
         }
     
+        const itemExistente = await prisma.itemCarrinho.findFirst({
+            where: {
+                Carrinho_idCarrinho: carrinho.idCarrinho,
+                Movel_idMovel: movelId,
+            },
+        });
+    
+        if (itemExistente) {
+            const novaQuantidade = itemExistente.quantidade + quantidade;
+    
+            if (novaQuantidade < 1) {
+                throw new Error('A quantidade mínima permitida é 1.');
+            }
+    
+            return await prisma.itemCarrinho.update({
+                where: { idItem: itemExistente.idItem },
+                data: { quantidade: novaQuantidade },
+                include: { movel: true },
+            });
+        }
+    
         return await prisma.itemCarrinho.create({
             data: {
                 Carrinho_idCarrinho: carrinho.idCarrinho,
@@ -31,6 +52,7 @@ export class CarrinhoRepository implements ICarrinhoRepository {
             include: { movel: true },
         });
     }
+    
 
     async removeItemFromCarrinho(carrinhoId: number, itemId: number) {
         await prisma.itemCarrinho.delete({
@@ -50,4 +72,23 @@ export class CarrinhoRepository implements ICarrinhoRepository {
             include: { movel: true },
         });
     }
+
+    async updateItemQuantidade(itemId: number, quantidadeIncremento: number) {
+        const item = await prisma.itemCarrinho.findUnique({ where: { idItem: itemId } });
+    
+        if (!item) {
+            throw new Error('Item não encontrado.');
+        }
+    
+        const novaQuantidade = item.quantidade + quantidadeIncremento;
+        if (novaQuantidade < 1) {
+            throw new Error('Quantidade não pode ser menor que 1.');
+        }
+    
+        return prisma.itemCarrinho.update({
+            where: { idItem: itemId },
+            data: { quantidade: novaQuantidade },
+        });
+    }
+    
 }

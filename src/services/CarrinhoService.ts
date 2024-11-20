@@ -26,4 +26,15 @@ export class CarrinhoService {
     async getItensCarrinho(carrinhoId: number) {
         return await this.carrinhoRepository.getItensCarrinho(carrinhoId);
     }
+
+    async updateQuantidade(userId: number, itemId: number, quantidadeIncremento: number) {
+        const carrinho = await this.carrinhoRepository.getCarrinhoByUserId(userId);
+    
+        if (!carrinho || !carrinho.itens.find(item => item.idItem === itemId)) {
+            throw new Error('Item não pertence ao carrinho do usuário.');
+        }
+    
+        return this.carrinhoRepository.updateItemQuantidade(itemId, quantidadeIncremento);
+    }
+    
 }
