@@ -36,5 +36,10 @@ export class CarrinhoService {
     
         return this.carrinhoRepository.updateItemQuantidade(itemId, quantidadeIncremento);
     }
+
+    async getQuantidadeTotalItens(userId: number): Promise<number> {
+        return await this.carrinhoRepository.getQuantidadeTotalItens(userId);
+    }
+    
     
 }

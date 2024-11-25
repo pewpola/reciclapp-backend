@@ -52,5 +52,17 @@ export class CarrinhoController {
             res.status(500).json({ error: 'Erro ao decrementar quantidade do item.' });
         }
     }
+
+    static async getQuantidadeTotal(req: Request, res: Response) {
+        const userId = parseInt(res.locals.userId);
+    
+        try {
+            const quantidadeTotal = await carrinhoService.getQuantidadeTotalItens(userId);
+            res.json({ quantidadeTotal });
+        } catch (error) {
+            res.status(500).json({ error: 'Erro ao calcular a quantidade total de itens no carrinho.' });
+        }
+    }
+    
     
 }

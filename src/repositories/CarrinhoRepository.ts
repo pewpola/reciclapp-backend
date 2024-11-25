@@ -91,4 +91,17 @@ export class CarrinhoRepository implements ICarrinhoRepository {
         });
     }
     
+    async getQuantidadeTotalItens(userId: number): Promise<number> {
+        const carrinho = await prisma.carrinho.findFirst({
+            where: { Usuario_idUsuario: userId },
+            include: { itens: true },
+        });
+    
+        if (!carrinho || !carrinho.itens) {
+            return 0;
+        }
+    
+        return carrinho.itens.reduce((total, item) => total + item.quantidade, 0);
+    }
+    
 }
