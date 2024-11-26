@@ -17,20 +17,20 @@ export class MovelController {
     }
   }
 
-  async create(req: Request, res: Response) {
-    const userId = req.userId;
-    const idUsuario = res.locals.userId;
+  async create(req: Request, res: Response, next: NextFunction) {
     try {
+      const idUsuario = res.locals.userId;
+      const urlImagem = req.file?.path || '';
       const movel = await this.movelService.createMovel({
         ...req.body,
-        Usuario_idUsuario: idUsuario
+        urlImagem,
+        Usuario_idUsuario: idUsuario,
       });
       res.status(201).json(movel);
     } catch (error) {
-      console.log(error);
-      res.status(400).json({ error: "Erro ao criar móvel" });
+      next(error);
     }
-  }  
+  }
 
 
   async getMovelById(req: Request, res: Response, next: NextFunction) {

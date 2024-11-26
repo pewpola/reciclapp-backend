@@ -17,7 +17,7 @@ export class MovelRepository implements IMovelRepository {
         descricao: data.descricao,
         urlImagem: data.urlImagem,
         usuario: {
-          connect: { idUsuario: data.Usuario_idUsuario } // Conectando o usuário pelo ID
+          connect: { idUsuario: data.Usuario_idUsuario }
         },
       },
     });
