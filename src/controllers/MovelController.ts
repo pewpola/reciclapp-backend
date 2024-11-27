@@ -69,13 +69,25 @@ export class MovelController {
 
   async update(req: Request, res: Response, next: NextFunction) {
     const { idMovel } = req.params;
+    const urlImagem = req.file?.path || null;
+  
     try {
-      const updatedMovel = await this.movelService.updateMovel(parseInt(idMovel), req.body);
+      const updatedData = { ...req.body };
+      if (urlImagem) {
+        updatedData.urlImagem = urlImagem;
+      }
+  
+      const updatedMovel = await this.movelService.updateMovel(
+        parseInt(idMovel),
+        updatedData
+      );
+  
       res.status(200).json(updatedMovel);
     } catch (error) {
       next(error);
     }
   }
+  
 
   async delete(req: Request, res: Response, next: NextFunction) {
     const { idMovel } = req.params;

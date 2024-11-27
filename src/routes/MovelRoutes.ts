@@ -12,7 +12,7 @@ router.post('/', authMiddleware, upload.single('imagem'), asyncHandler(movelCont
 router.get('/', asyncHandler(movelController.index.bind(movelController)));
 router.get('/usuario', authMiddleware, asyncHandler(movelController.getMovelByUser.bind(movelController)));
 router.get('/:idMovel', asyncHandler(movelController.getMovelById.bind(movelController)));
-router.put('/:idMovel', authMiddleware, asyncHandler(movelController.update.bind(movelController)));
+router.put('/:idMovel', authMiddleware, upload.single('imagem'),asyncHandler(movelController.update.bind(movelController)));
 router.delete('/:idMovel', authMiddleware, asyncHandler(movelController.delete.bind(movelController)));
 
 export default router;
