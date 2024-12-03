@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { ServicoController } from "../../src/controllers/ServicoController";
 import { ServicoService } from "../../src/services/ServicoService";
 
-// Mocks
 jest.mock("../../src/services/ServicoService");
 
 const mockServicoService = ServicoService as jest.MockedClass<typeof ServicoService>;
